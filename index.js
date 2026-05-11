@@ -1,3 +1,4 @@
+const fetch = require('node-fetch');
 const express = require('express');
 const cors = require('cors');
 
@@ -18,7 +19,7 @@ app.post('/new-user', async (req, res) => {
 
     console.log('===== НОВАЯ ЗАЯВКА =====');
     console.log(req.body);
-        await fetch('ВСТАВЬ_СЮДА_URL_ИЗ_GOOGLE', {
+        await fetch('https://docs.google.com/spreadsheets/d/1HASjjDZg3ZAvsxPcD_ztnYJbyWHkv7KeLMirAYrGFzw/edit?usp=sharing', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(req.body)
