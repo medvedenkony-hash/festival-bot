@@ -15,8 +15,14 @@ app.get('/', (req, res) => {
 // ✅ обработка заявки
 app.post('/new-user', async (req, res) => {
   try {
+
     console.log('===== НОВАЯ ЗАЯВКА =====');
     console.log(req.body);
+        await fetch('ВСТАВЬ_СЮДА_URL_ИЗ_GOOGLE', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(req.body)
+});
 
     // просто ответ (чтобы фронт не зависал)
     res.status(200).json({ success: true });
