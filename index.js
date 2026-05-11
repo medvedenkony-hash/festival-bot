@@ -19,7 +19,7 @@ app.post('/new-user', async (req, res) => {
 
     console.log('===== НОВАЯ ЗАЯВКА =====');
     console.log(req.body);
-       await fetch('https://script.google.com/macros/s/AKfycbyafEDulASJJKjPX-CxO6bCf4UBX6FygFoVfxJ0Bts6QlVjdi0wR0NuiK4Zcyh1jYVk/exec', {
+       await fetch('https://script.google.com/macros/s/AKfycbx5ajjce9nz4__FeYD3sDmhK44GRFTIt-OCflMvQoQ5gdsDacjffqVgPhHJQIhkgpPv/exec', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(req.body)
