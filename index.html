@@ -770,19 +770,36 @@
     </div>
   </footer>
 
-  <script>
-    const form = document.getElementById('festivalForm');
-    const successMessage = document.getElementById('successMessage');
+ <script>
+  const form = document.getElementById('festivalForm');
+  const successMessage = document.getElementById('successMessage');
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      successMessage.style.display = 'block';
-      form.reset();
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-      setTimeout(() => {
-        successMessage.style.display = 'none';
-      }, 5000);
+    const data = {
+      name: document.getElementById('name').value,
+      phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value,
+      format: document.getElementById('format').value,
+      comment: document.getElementById('comment').value
+    };
+
+    await fetch("https://festival-bot-qdty.onrender.com/new-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
     });
-  </script>
+
+    successMessage.style.display = 'block';
+    form.reset();
+
+    setTimeout(() => {
+      successMessage.style.display = 'none';
+    }, 5000);
+  });
+</script>
 </body>
 </html>
