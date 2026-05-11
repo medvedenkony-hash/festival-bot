@@ -2,22 +2,23 @@ import express from "express";
 import fetch from "node-fetch";
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 const BOT_TOKEN = "8591260825:AAEXQTjD3NYmTYy9nuWkSvKWq6tVIZpyH7E";
 const CHAT_ID = "8339993500";
 
-app.post("/new-user", async (req, res) => {
-  const { name, email } = req.body;
+app.post('/new-user', async (req, res) => {
+  try {
+    console.log('Новая заявка:', req.body);
 
-  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({
-      chat_id: CHAT_ID,
-      text: `Новая регистрация:\n${name} (${email})`
-    })
-  });
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error('Ошибка:', err);
+    res.status(500).json({ success: false });
+  }
+});
 
   res.send("ok");
 });
