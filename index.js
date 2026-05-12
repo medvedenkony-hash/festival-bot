@@ -59,13 +59,13 @@ app.post('/buy', async (req, res) => {
       })
     });
 
-    await sendTelegram(
-      `Новая оплата:
-Имя: ${data.name}
-Телефон: ${data.phone}
-Место: ${data.row}-${data.seat}
-Цена: ${data.price}`
-    );
+   await sendTelegram(
+  'Новая оплата:\n' +
+  'Имя: ' + data.name + '\n' +
+  'Телефон: ' + data.phone + '\n' +
+  'Место: ' + data.row + '-' + data.seat + '\n' +
+  'Цена: ' + data.price
+);
 
     res.json({ success: true });
 
