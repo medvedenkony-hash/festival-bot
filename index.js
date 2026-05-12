@@ -16,7 +16,7 @@ const TELEGRAM_TOKEN = 'ВСТАВЬ_НОВЫЙ_ТОКЕН';
 const CHAT_ID = '8339993500';
 
 async function sendTelegram(text) {
-  await fetch(`https://api.telegram.org/bot${8591260825:AAEXQTjD3NYmTYy9nuWkSvKWq6tVIZpyH7E}/sendMessage`, {
+  await fetch(`https://api.telegram.org/bot{8591260825:AAEXQTjD3NYmTYy9nuWkSvKWq6tVIZpyH7E}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
