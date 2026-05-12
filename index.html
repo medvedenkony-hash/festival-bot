@@ -839,5 +839,53 @@
     }
   });
 </script>
+ <body>
+
+<h1>Выбор мест</h1>
+
+<div id="hall"></div>
+
+<script>
+const hall = document.getElementById('hall');
+
+for (let row = 3; row <= 10; row++) {
+  const rowDiv = document.createElement('div');
+
+  for (let seat = 1; seat <= 10; seat++) {
+    const btn = document.createElement('button');
+
+    const price = (row >= 3 && row <= 5) ? 1000 : 500;
+
+    btn.innerText = `${row}-${seat}`;
+    btn.onclick = async () => {
+      const name = prompt('Имя');
+      const phone = prompt('Телефон');
+
+      alert('Оплати по QR и нажми ОК');
+
+      await fetch('/buy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          phone,
+          row,
+          seat,
+          price
+        })
+      });
+
+      btn.disabled = true;
+      btn.innerText = 'Продано';
+    };
+
+    rowDiv.appendChild(btn);
+  }
+
+  hall.appendChild(rowDiv);
+}
+</script>
+<div id="hall"></div>
+</body> 
 </body>
 </html>
