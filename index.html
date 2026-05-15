@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+}
+
   <style>
     :root {
       --bg: #081225;
@@ -686,16 +688,21 @@
           </form>
         </div>
 
-        <div class="card" id="payment" style="text-align:center;">
-          <h3>Оплата по QR-коду</h3>
-          <p class="note">
-            Ниже размещается реальный QR-код для оплаты. Замените изображение на ваш актуальный файл.
-          </p>
+       <div class="qr-container">
 
-          <div class="qr-image">
-            <img src="qr-festival-payment.png" alt="QR-код для оплаты фестиваля">
-          </div>
+  <div class="qr-card">
+    <img src="qr_ticket_1000.png" alt="QR 1000">
+    <h3>1000 ₽</h3>
+    <p>ряд с 3 по 5</p>
+  </div>
 
+  <div class="qr-card">
+    <img src="qr_ticket_500.png" alt="QR 500">
+    <h3>500 ₽</h3>
+    <p>ряд с 6 по 10</p>
+  </div>
+
+</div>
           <div class="price">Стоимость участия: по информации организаторов</div>
           <p class="note" style="margin-top: 16px;">
             После оплаты сохраните чек и отправьте его организаторам или покажите при регистрации.
@@ -775,7 +782,19 @@
       <p>с. Одинск Ангарского района</p>
     </div>
   </footer>
+<div id="paymentModal" class="modal">
+  <div class="modal-content">
+    <p id="seatInfo"></p>
+    <button onclick="confirmBuy()">Оплатить</button>
+  </div>
+</div>
 
+<div id="qrModal" class="modal">
+  <div class="modal-content">
+    <p>Отсканируйте QR для оплаты</p>
+    <img src="qr.png" width="200">
+  </div>
+</div>
   <script>
     /* =======================
        ✅ 1) ФОРМА
@@ -992,6 +1011,7 @@
         }
       }
 
+
       try {
         await apiBuy({
           name,
@@ -1026,4 +1046,4 @@
   </script>
 </body>
 </html>
-тест
+
