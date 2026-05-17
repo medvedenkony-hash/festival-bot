@@ -538,7 +538,7 @@
         </div>
         <div class="card">
           <h3>🎨 Интерактив для всех</h3>
-          <p>Мастер-классы, изготовление оберегов, создание украшений, лепка, игры и практика управления дроном.</p>
+          <p>Выставка картин от Александра Имедеева(Живописец, график, педагог РФ), национальные бурятские игры, экскурсия в краеведческую комнату с гидом,мастер-классы, изготовление оберегов, создание украшений, деловая игра, обучение и практика управления дроном.</p>
         </div>
       </div>
     </div>
@@ -603,6 +603,7 @@
             <li>русские, армянские и бурятские номера</li>
             <li>ансамбль — победитель международного конкурса</li>
             <li>живая атмосфера дружбы народов</li>
+
           </ul>
         </div>
 
@@ -613,6 +614,7 @@
             <li>доставка и логистика</li>
             <li>съёмка и развитие территорий</li>
             <li>демонстрация возможностей беспилотников</li>
+            <li>выставка дронов</li>
           </ul>
         </div>
 
@@ -621,8 +623,10 @@
           <ul class="list">
             <li>изготовление оберегов</li>
             <li>создание украшений</li>
-            <li>лепка</li>
+            <li>деловая игра</li>
             <li>практика управления дроном</li>
+            <li>Выставка картин известного художника</li>
+
           </ul>
         </div>
 
@@ -703,8 +707,8 @@
   </div>
 
 </div>
-          <div class="price">После оплаты сохраните чек и отправьте его организаторам или покажите при регистрации.</div>
-          <p class="note" style="margin-top: 16px;">
+          <div class="price">Всех жителей с. Одинск приглашаем на фестиваль бесплатно </div>
+          <p class="note" style="margin-top: 18px;">
             После оплаты сохраните чек и отправьте его организаторам или покажите при регистрации.
           </p>
         </div>
@@ -750,7 +754,7 @@
     </div>
   </section>
 
-  <!-- ✅ ВЫБОР МЕСТ -->
+  <!-- ✅ При оплате по QR коду сохраните чек для , в коментариях напишите "оплата по QR коду 1000 или 500 руб. -->
   <section id="seats">
     <div class="container">
       <div class="section-title">
@@ -856,195 +860,10 @@
     // - В интернете (Render): API_BASE = "https://ваш-сервер.onrender.com"
     const API_BASE = "http://localhost:3000";
 
-    const hallEl = document.getElementById("hall");
-    const summaryEl = document.getElementById("summary");
-
-    let serverSeats = {};
-    const selectedSeats = new Map();
-
-    function seatId(row, seat) { return `${row}-${seat}`; }
-    function getPrice(isVip) { return isVip ? PRICE_VIP : PRICE_STD; }
-
-    async function apiGetSeats() {
-      const res = await fetch(`${API_BASE}/seats`, { method: "GET" });
-      if (!res.ok) throw new Error("Не удалось загрузить места");
-      return await res.json();
-    }
-
-    async function apiBuy(payload) {
-      const res = await fetch(`${API_BASE}/buy`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) {
-        let details = null;
-        try { details = await res.json(); } catch {}
-        const msg = details?.occupied?.length
-          ? `Места уже заняты: ${details.occupied.join(", ")}`
-          : "Покупка не прошла";
-        throw new Error(msg);
-      }
-
-      return await res.json().catch(() => ({}));
-    }
-
-    function renderHall() {
-      hallEl.innerHTML = "";
+    
 
      
-      const rowsToRender = [...HALL_ROWS].sort((a,b) => a.row - b.row);
-
-      for (const rowCfg of rowsToRender) {
-        const rowWrap = document.createElement("div");
-        rowWrap.className = "hall-row";
-
-        const label = document.createElement("div");
-        label.className = "row-label";
-        label.textContent = `${rowCfg.row} ряд`;
-        rowWrap.appendChild(label);
-
-        const aisleIndex = Math.ceil(rowCfg.seats / 2);
-
-        for (let s = 1; s <= rowCfg.seats; s++) {
-          if (s === aisleIndex + 1) {
-            const aisle = document.createElement("div");
-            aisle.className = "aisle";
-            rowWrap.appendChild(aisle);
-          }
-
-          const id = seatId(rowCfg.row, s);
-          const btn = document.createElement("button");
-          btn.className = "seat";
-          btn.type = "button";
-          btn.textContent = String(s);
-          btn.setAttribute("aria-label", `Ряд ${rowCfg.row}, место ${s}`);
-
-          if (rowCfg.vip) btn.classList.add("vip");
-
-          const isOccupied = serverSeats[id] === "occupied";
-          if (isOccupied) {
-            btn.classList.add("occupied");
-            btn.disabled = true;
-            btn.title = "Продано";
-          } else {
-            btn.title = `Ряд ${rowCfg.row}, место ${s}`;
-          }
-
-          if (selectedSeats.has(id)) btn.classList.add("selected");
-
-          btn.addEventListener("click", () => {
-            if (btn.disabled) return;
-
-            if (selectedSeats.has(id)) {
-              selectedSeats.delete(id);
-              btn.classList.remove("selected");
-            } else {
-              selectedSeats.set(id, {
-                seatId: id,
-                row: rowCfg.row,
-                seat: s,
-                price: getPrice(rowCfg.vip)
-              });
-              btn.classList.add("selected");
-            }
-
-            renderSummary();
-          });
-
-          rowWrap.appendChild(btn);
-        }
-
-        hallEl.appendChild(rowWrap);
-      }
-    }
-
-    function renderSummary() {
-      if (selectedSeats.size === 0) {
-        summaryEl.innerHTML = "";
-        return;
-      }
-
-      const list = [...selectedSeats.values()]
-        .sort((a,b) => (a.row - b.row) || (a.seat - b.seat));
-
-      const total = list.reduce((sum, x) => sum + x.price, 0);
-      const seatsText = list.map(x => `${x.row} ряд • ${x.seat} место`).join(", ");
-
-      summaryEl.innerHTML = `
-        <div class="sumline">Вы выбрали: <strong>${seatsText}</strong></div>
-        <div class="sumline">Итого: <strong>${total} ₽</strong></div>
-        <button class="btn btn-primary" id="buyBtn" type="button">Купить</button>
-        <div class="mini-muted">Купленные места будут заблокированы для повторной покупки.</div>
-      `;
-
-      document.getElementById("buyBtn").addEventListener("click", buySelectedSeats);
-    }
-
-    async function buySelectedSeats() {
-      if (selectedSeats.size === 0) return;
-
-      const name = prompt("Введите имя/ФИО для покупки билетов:");
-      if (!name) return;
-
-      const phone = prompt("Введите телефон:");
-      if (!phone) return;
-
-      // Обновляем актуальный список мест
-      try {
-        serverSeats = await apiGetSeats();
-      } catch (e) {
-        console.error(e);
-        alert("Не удалось обновить список мест. Попробуйте ещё раз.");
-        return;
-      }
-
-      // Проверяем, что выбранные не заняты
-      for (const id of selectedSeats.keys()) {
-        if (serverSeats[id] === "occupied") {
-          alert(`Место ${id} уже продано. Выберите другое.`);
-          selectedSeats.delete(id);
-          renderHall();
-          renderSummary();
-          return;
-        }
-      }
-
-
-      try {
-        await apiBuy({
-          name,
-          phone,
-          seats: [...selectedSeats.keys()]
-        });
-
-        alert("✅ Оплатите по QR коду и сохраните чек");
-
-        selectedSeats.clear();
-        serverSeats = await apiGetSeats();
-        renderHall();
-        renderSummary();
-      } catch (e) {
-        console.error(e);
-        alert(e.message || "Покупка не прошла. Обновите страницу и попробуйте ещё раз.");
-      }
-    }
-
-    async function initHall() {
-      try {
-        serverSeats = await apiGetSeats();
-      } catch (e) {
-        console.error(e);
-        serverSeats = {};
-      }
-      renderHall();
-      renderSummary();
-    }
-
     initHall();
   </script>
 </body>
 </html>
-
-
