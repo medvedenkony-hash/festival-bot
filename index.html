@@ -770,49 +770,56 @@
     </div>
   </footer>
 
-  <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxfDXEQroSPWi2_CSGF86LMUw-Z-f6BJhgaFS888xedC_mHe_z6gICEEX_FAkmoa6zt/exec;
+ <script>
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbxfDXEQroSPWi2_CSGF86LMUw-Z-f6BJhgaFS888xedC_mHe_z6gICEEX_FAkmoa6zt/exec";
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("festivalForm");
-      const successMessage = document.getElementById("successMessage");
+document.addEventListener("DOMContentLoaded", () => {
 
-      if (!form) return;
+  const form = document.getElementById("festivalForm");
+  const successMessage = document.getElementById("successMessage");
 
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+  form.addEventListener("submit", async (event) => {
 
-        const formData = new FormData(form);
+    event.preventDefault();
 
-        const payload = {
-          name: formData.get("name"),
-          phone: formData.get("phone"),
-          email: formData.get("email"),
-          format: formData.get("format"),
-          comment: formData.get("comment"),
-        };
+    const formData = new FormData(form);
 
-        try {
-          const resp = await fetch(WEB_APP_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
+    const payload = {
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+      email: formData.get("email"),
+      format: formData.get("format"),
+      comment: formData.get("comment")
+    };
 
-          const result = await resp.json();
+    try {
 
-          if (result.ok) {
-            if (successMessage) successMessage.style.display = "block";
-            form.reset();
-          } else {
-            alert("Ошибка отправки: " + (result.error || "неизвестно"));
-          }
-        } catch (e) {
-          alert("Ошибка сети: " + e);
-        }
+      const response = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
       });
-    });
-  </script>
+
+      const result = await response.json();
+
+      if (result.ok) {
+        successMessage.style.display = "block";
+        form.reset();
+      } else {
+        alert("Ошибка: " + result.error);
+      }
+
+    } catch (err) {
+      alert("Ошибка сети: " + err);
+    }
+
+  });
+
+});
+</script>
 </body>
 </html>
 
