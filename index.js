@@ -57,3 +57,44 @@ app.post('/new-user', async (req, res) => {
     });
   }
 });
+app.post('/buy', async (req, res) => {
+  try {
+
+    const data = req.body;
+
+    const WEB_APP_URL =
+      'https://script.google.com/macros/s/AKfycbxfDXEQroSPWi2_CSGF86LMUw-Z-f6BJhgaFS888xedC_mHe_z6gICEEX_FAkmoa6zt/exec';
+
+    await fetch(WEB_APP_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...data,
+        status: 'оплачено'
+      })
+    });
+
+    await sendTelegram(
+      'Новая оплата:\n' +
+      'Имя: ' + data.name + '\n' +
+      'Телефон: ' + data.phone + '\n' +
+      'Место: ' + data.row + '-' + data.seat + '\n' +
+      'Цена: ' + data.price
+    );
+
+    res.json({
+      success: true
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      error: String(error)
+    });
+  }
+});
