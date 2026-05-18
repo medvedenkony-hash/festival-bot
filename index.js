@@ -16,7 +16,7 @@ const TELEGRAM_TOKEN = 'ВСТАВЬ_НОВЫЙ_ТОКЕН';
 const CHAT_ID = '8339993500';
 
 async function sendTelegram(text) {
-  await fetch(`https://script.google.com/macros/s/AKfycbxfDXEQroSPWi2_CSGF86LMUw-Z-f6BJhgaFS888xedC_mHe_z6gICEEX_FAkmoa6zt/exec, {
+  await fetch("https://script.google.com/macros/s/AKfycbyV80Sh7CMfAgT37eeRtnKjyP8smn5EU0uI92c6PrDms4uj-K6jDgDBqTsq2Q_ApmbQ/exec"{
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -31,7 +31,7 @@ app.post('/new-user', async (req, res) => {
   try {
     const data = req.body;
 
-   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxfDXEQroSPWi2_CSGF86LMUw-Z-f6BJhgaFS888xedC_mHe_z6gICEEX_FAkmoa6zt/exec";
+   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyV80Sh7CMfAgT37eeRtnKjyP8smn5EU0uI92c6PrDms4uj-K6jDgDBqTsq2Q_ApmbQ/exec";
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
