@@ -31,7 +31,7 @@ app.post('/new-user', async (req, res) => {
   try {
     const data = req.body;
 
-    await fetch('https://script.google.com/macros/s/AKfycbx5ajjce9nz4__FeYD3sDmhK44GRFTIt-OCflMvQoQ5gdsDacjffqVgPhHJQIhkgpPv/exec, {
+   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxfDXEQroSPWi2_CSGF86LMUw-Z-f6BJhgaFS888xedC_mHe_z6gICEEX_FAkmoa6zt/exec";
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -50,7 +50,7 @@ app.post('/buy', async (req, res) => {
   try {
     const data = req.body;
 
-    await fetch(https://script.google.com/macros/s/AKfycbxbKE3t9JNzQXIKDDgLipS9ahDjqi9-0KRDA6j-nBOWgW4gpJHMeXSRQr3OrIBCSJg9/exec, {
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxfDXEQroSPWi2_CSGF86LMUw-Z-f6BJhgaFS888xedC_mHe_z6gICEEX_FAkmoa6zt/exec";
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
