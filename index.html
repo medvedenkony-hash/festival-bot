@@ -656,17 +656,17 @@
           <form id="festivalForm">
             <div class="field">
               <label for="name">ФИО</label>
-              <input type="text" id="name" placeholder="Введите ваше ФИО" required>
+              <input type="text" id="name" name="name" placeholder="Введите ваше ФИО" required>
             </div>
 
             <div class="field">
               <label for="phone">Телефон</label>
-              <input type="tel" id="phone" placeholder="+7 (900) 000-00-00" required>
+              <input type="tel" id="phone" name="phone" placeholder="+7 (900) 000-00-00" required>
             </div>
 
             <div class="field">
               <label for="email">Email</label>
-              <input type="email" id="email" placeholder="mail@example.ru" required>
+              <input type="email" id="email" name="email" placeholder="mail@example.ru" required>
             </div>
 
             <div class="field">
@@ -682,8 +682,8 @@
             </div>
 
             <div class="field">
-              <label for="comment">Комментарий</label>
-              <textarea id="comment" rows="4" placeholder="Например: участие всей семьёй"></textarea>
+              <textarea id="comment" name="comment" rows="4" placeholder="Например: участие всей семьёй"></textarea>
+              
             </div>
 
             <button class="btn btn-primary" type="submit">Отправить заявку</button>
@@ -756,18 +756,61 @@
 
   <!-- ✅ При оплате по QR коду сохраните чек для , в коментариях напишите "оплата по QR коду 1000 или 500 руб. -->
   <section id="seats">
-    <div class="container">
-     
-     
-    </div>
-  </section>
+   <footer>
+  <div class="container">
+    ...
+  </div>
+</footer>
 
-  <footer>
+</body>
+</html>
     <div class="container">
       <p><strong>Фестиваль «Небо объединяет!»</strong> • 23 мая 2026 • ДК «Одинск»</p>
       <p>с. Одинск Ангарского района</p>
     </div>
- 
+<script>
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxbKE3t9JNzQXIKDDgLipS9ahDjqi9-0KRDA6j-nBOWgW4gpJHMeXSRQr3OrIBCSJg9/exec"; // <-- вставьте сюда ссылку Web App из Apps Script
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("festivalForm");
+    const successMessage = document.getElementById("successMessage");
+
+    if (!form) return;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+
+      const payload = {
+        name: formData.get("name"),
+        phone: formData.get("phone"),
+        email: formData.get("email"),
+        format: formData.get("format"),
+        comment: formData.get("comment"),
+      };
+
+      try {
+        const resp = await fetch(WEB_APP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await resp.json();
+
+        if (result.ok) {
+          if (successMessage) successMessage.style.display = "block";
+          form.reset();
+        } else {
+          alert("Ошибка отправки: " + (result.error || "неизвестно"));
+        }
+      } catch (e) {
+        alert("Ошибка сети: " + e);
+      }
+    });
+  });
+</script> 
 </body>
 </html>
 
