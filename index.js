@@ -68,7 +68,7 @@ app.post('/buy', async (req, res) => {
     await fetch(WEB_APP_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        application/x-www-form-urlencoded
       },
       body: JSON.stringify({
         ...data,
