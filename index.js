@@ -31,7 +31,7 @@ app.post('/new-user', async (req, res) => {
   try {
     const data = req.body;
 
-   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyV80Sh7CMfAgT37eeRtnKjyP8smn5EU0uI92c6PrDms4uj-K6jDgDBqTsq2Q_ApmbQ/exec";
+   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxK2ya-FkkP2W00ohmdJD2ve4k7veB02qDeYx_wV5H_3NwewxV2-aW0DVffAGOyGn0L/exec";
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
