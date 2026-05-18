@@ -31,11 +31,11 @@ app.post('/new-user', async (req, res) => {
   try {
     const data = req.body;
 
-   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyn7SDSbTKs3T8obA4XMt_UtuXpfuUb4vy-NzBaDV3mgnN2BpWbSwdLRy96HGBfX6Kq/exec";
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
+   await fetch(WEB_APP_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+});
 
     res.json({ success: true });
 
